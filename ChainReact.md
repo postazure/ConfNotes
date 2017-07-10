@@ -1,9 +1,23 @@
 # Chain React Conference Notes
-React Native Conference
+[React Native Conference](https://infinite.red/ChainReactConf)
 
 Slack `community.infinite.red`
 
 The Jump?
+
+<!-- TOC depthFrom:2 depthTo:2 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [The Dark Arts of the bundlers - Mike Grabowski](#the-dark-arts-of-the-bundlers-mike-grabowski)
+- [Open Source Contributing - Brent Vatne](#open-source-contributing-brent-vatne)
+- [AWS/Runtime process - Richard Threlkeld](#awsruntime-process-richard-threlkeld)
+- [Paypal Checkout with RN - Poornima Venkatakrishnan](#paypal-checkout-with-rn-poornima-venkatakrishnan)
+- [RN + ES.next - Ben Ilegbodu](#rn-esnext-ben-ilegbodu)
+- [Mobile Payments - Naoufal Kadhom](#mobile-payments-naoufal-kadhom)
+- [Gestures Everywhere - Kyle Poole & Thomas Bruketta](#gestures-everywhere-kyle-poole-thomas-bruketta)
+- [Gudog - Javier Cuevas](#gudog-javier-cuevas)
+- [App Browser / Progressive Web Apps - Ken Wheeler](#app-browser-progressive-web-apps-ken-wheeler)
+
+<!-- /TOC -->
 
 ## The Dark Arts of the bundlers - Mike Grabowski
 Takes all source files and turns them into a single file. But why?
@@ -132,8 +146,85 @@ The SDK takes over when the user selects to Checkout with Paypal and provides UI
 
 
 ## RN + ES.next - Ben Ilegbodu
-
+DRY-er code through es6 syntax:
 [Slides](http://www.benmvp.com/slides/2017/chainreact/react-native-esnext.html#/)
 
+## Mobile Payments - Naoufal Kadhom
+[naoufal/react-native-payments](https://github.com/naoufal/react-native-payments) - xplatform simplified purchase without a webform
 
-## - Nader Dabit
+### Web payments
+Payment Request API - Make a request for a payment without presenting a form. Available in Chrome 60 (currently available in edge and chrome for android).
+
+Pulls from the user's saved cards in their browser.
+
+### Native
+Apple Pay, Android Pay
+
+### React Native Payments
+Uses a polyfill to take advantage of the Payment Request API. This makes sharing code between web and RN much easier.
+
+## Gestures Everywhere - Kyle Poole & Thomas Bruketta
+Gestures simply UIs and reduce the amount of taps. Allows users to directly manipulate the thing they are looking at rather than using a control to impact something else on the page/app.
+
+[Gestures](https://facebook.github.io/react-native/docs/gesture-responder-system.html)
+
+### Touchables
+Tap, Double Tap, Long Press
+
+* TouchableWithoutFeedBack - just calls the callback but doesn't give the user an indication that it was pressed
+* TouchableOpacity - Lowers capacity on press, and cb on release. User can slide of and cancle
+* TouchableHighlight - Similar to opacity change, but sets a different color instead.
+
+> `hitSlop` can increase the hit size without impacting layout
+
+### ScrollViews
+* ScrollView - Native scroll with all native hooks for you child content.
+  - `Paging` can add multiple page carousel
+
+> Plays nice with touchables and delegates the tap to scroll
+
+### PanResponder
+Impacts a single item rather than a container of objects. It is not a component. You'll need to pass this into a render of a component.
+
+## Gudog - Javier Cuevas
+Airbnb for dog walkers.
+
+First used PhoneGap and then switched to react native.
+
+Redux-saga is like a long running thread for side processes. Ignite generator for RN.
+
+Need more convention in the project layouts.
+
+## App Browser / Progressive Web Apps - Ken Wheeler
+Most apps are aggregating content like facebook app. They are browsers.
+
+Mobile web? Poor performance, poor capability its just not great for app development.
+
+The first browser was actually called the 'WorldWideWeb'.
+
+2006: There are document primitives, but not widget primitives. They aren't first class citizens.
+
+HTML5 tries to address many of these concerns...
+
+But web apps are still slow because they have to make up for all the missing functionality from the browsers.
+
+Progressive Web Apps - Are web apps that are supposed to feel like responsive native apps. But they are really just a checklist of performance recommendations. They deal with platform limitations by imposing restrictions.
+
+Web apps?
+Discovery is good, distribution is free, but performance is not there.
+
+What about native apps?
+Hard for people to find them, distribution is a pain, but apps feel great.
+
+What's an App Browser?
+Uses URLs and loads websites, and opens native apps. Has fallbacks to website if app cant be loaded.
+
+Polyfill your native app to put it into web.
+
+TODOs
+* Bridge communication for URL syncing and routing
+* Handle local assets
+* Handle permissions
+* Standardized library
+
+Exists on Expo.io
