@@ -228,3 +228,84 @@ TODOs
 * Standardized library
 
 Exists on Expo.io
+
+## Break Down Bridging -  Peggy Rayzis
+
+> `react-native-create-bridge` can help generate the bridging code.
+
+How we communicate between JS and native code.
+You don't always need write it yourself. If performance is very important it can be best to write it as native and bridge to it.
+
+There is a json representation for each native modules in the js vm. All events start on native and then it gets passed through the bridge to the js code.
+
+The __message queue__ is responsible for handling that transfer of information. If its blocked then you wont get the event in js.
+So you could...
+* Restrict the amount of info getting passed across the bridge.
+* Pass config once, and not with every event. Keep data flat.
+* Write business on one side of the bridge.
+* Keep data flat.
+
+Debugging:
+* __rn-snoopy__ is a debugging tool for bridging
+* Triggering a yellow box warning can be a good tool for debugging
+
+### Native UI Components
+Only one instance of the Module is created per bridge.
+
+View Manager is a factory that orchestrates the communication across the bridge.
+
+Only one instance of View Manager is created per bridge. It declares data structures. Hooks up lifecycle events.
+
+### Pain Points
+* Context switching
+* Boilerplate
+* Not a lot of docs
+
+> npm `react-native-create-bridge` generator for native bridging templates.
+
+## Evolution of API Design - Eric Baer
+GraphQL - Its where we've been going all along.
+Its a spec not an implementation. There are implementations in many different languages.
+
+
+## DevOps - Ram Narasimhan
+[Mobile Center](https://mobile.azure.com)
+
+### CodePush
+Send packager output to cloud before sending it to the JS VM.
+This can allow you to push your code to device.
+
+
+## React as a Platform - Leland Richardson
+RN and React are as easily compatible as one would hope.
+These are separate __technologies__, not __concerns__.
+
+Each component needs to select its dependency, implicitly html or explicitly native. A dependency injector could inject the correct dependency for the context (device).
+
+[git:lelandrichardson/react-primitives](https://github.com/lelandrichardson/react-primitives) includes DI.
+
+Use platform extensions \*.ios.js, \*.android.js
+
+Render react components into Sketch using [react-sketchapp](https://github.com/airbnb/react-sketchapp). Could this eliminate the need for a styleguide?
+
+## Serverless Backend for RN Apps - Kevin Old
+
+AWS console can be difficult to configure. There is a cli or sdk that can help.
+
+[Serverless](https://serverless.com/) framework can help, it provides many tools automation and convention.
+
+Serverless breaks down into multiple components:
+* Function
+* Event
+* Resource
+* Service
+
+```
+Client  ->  Gateway ->  Lambda
+        <-          <-
+```
+
+serverless.yml is the manifest of the lambda (function) and the api gateway.
+Serverless includes tooling for deploy.
+
+serverless-offline
