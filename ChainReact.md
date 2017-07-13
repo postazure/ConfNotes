@@ -16,6 +16,16 @@ The Jump?
 - [Gestures Everywhere - Kyle Poole & Thomas Bruketta](#gestures-everywhere-kyle-poole-thomas-bruketta)
 - [Gudog - Javier Cuevas](#gudog-javier-cuevas)
 - [App Browser / Progressive Web Apps - Ken Wheeler](#app-browser-progressive-web-apps-ken-wheeler)
+- [Break Down Bridging -  Peggy Rayzis](#break-down-bridging-peggy-rayzis)
+- [Evolution of API Design - Eric Baer](#evolution-of-api-design-eric-baer)
+- [DevOps - Ram Narasimhan](#devops-ram-narasimhan)
+- [React as a Platform - Leland Richardson](#react-as-a-platform-leland-richardson)
+- [Serverless Backend for RN Apps - Kevin Old](#serverless-backend-for-rn-apps-kevin-old)
+- [Panel Discussion](#panel-discussion)
+- [When to go Native over JavaScript - Harry Tormey](#when-to-go-native-over-javascript-harry-tormey)
+- [How to make mobile apps feel good - Alex Kotliarskyi](#how-to-make-mobile-apps-feel-good-alex-kotliarskyi)
+- [React Native on the Apple TV Platform - Doug Lowder](#react-native-on-the-apple-tv-platform-doug-lowder)
+- [From Idea to App Store - Chris Ball](#from-idea-to-app-store-chris-ball)
 
 <!-- /TOC -->
 
@@ -309,3 +319,121 @@ serverless.yml is the manifest of the lambda (function) and the api gateway.
 Serverless includes tooling for deploy.
 
 serverless-offline
+
+## Panel Discussion
+### yarn vs. npm
+The aren't very many advantages over one another.
+Yarn might be better for RN because of symlinks and packager interactions.
+The disadvantage to yarn is that the whole group needs the same version of yarn.
+
+### Navigation
+react-navigation for RN
+
+### Biggest Challenges with RN
+* Breaking Changes and Backwards Compatibility Issues
+* Facebook internal priorities vs. open source community use cases
+* Performance issues over the bridge
+* Accessibility support
+* Security concerns in Android
+* Enterprise adoption
+
+## When to go Native over JavaScript - Harry Tormey
+### Tooling
+__Expo__ like rails for react native. Its great for pure JS and no native code. If you want to use some native code, then you will not have support from Expo. CodePush has similar problems around native code.
+
+These native elements require changes to binaries.
+
+### Thrid Party libraries
+git:hgale - [medium](https://launchdrawer.com/)
+
+Which ones contain native code?
+
+ex. Navigation
+Native libraries wrap underling navigation.
+JS libraries compensate and only do it with JS.
+
+With the JS version, in iOS renders all the screens, not just the one being displayed. Each screen has its own view controller.
+
+This can confuse things like accessibility (android), but has other impacts.
+* Native Feel
+* Performance
+
+Native libraries have cons too.
+* Requires native knowledge
+* Might require different tooling
+* There are difference in the native platforms that you will need to account for.
+
+### Native
+Need to test on actual application, apps behave differently from simulator.
+There are many use cases when you will need to write your own native code. Things that need to happen in the background.
+
+So, write just the native code you need, but you probably will need it in some cases.
+
+## How to make mobile apps feel good - Alex Kotliarskyi
+What impacts what makes a good app?
+Expectations - Mobile apps have higher expectations than web apps
+
+Building for mobile is different for web. There are a lot of components that they are familiar with, but how you use them needs to be somewhat different than they would be on web.
+
+TextInput for forms will feel clunky because they are in a different context with different controls. You don't have a physical keyboard, you have to tap on the input.
+
+Direct Manipulation - cursor has visual feedback and can precisely select something. On mobile you are interacting with the thing you want to change, need instant feedback is require because it is expected.
+
+Physics (checkout wix/react-native-interactable) things should feel smooth
+
+Touch make the tap target much larger than the actual icon (slopHit)
+
+Ability to Cancel an interaction. Push button but slide away allows the user to cancel an action.
+
+Animation and Spatial Awareness - I don't see the screen behind, but i know its still there, even though the UI is 2D. On the desktop this works, but on mobile we don't have space. So we appear to be larger than the actual space. We can see things hanging off the edge. Animation is used to aid spacial awareness.
+
+Loading - The app is loading and using the full screen to show a spinner. meh. Pass info from list to show and render as much as you can while you wait for rest of data to appear. The list will hold some of the information so show it and the user will feel like its fast while it waits for the rest of the data.
+
+RN lets you build something really fast, but don't get fooled. That doesn't get it done. It's simple, but you still need to spend the time on the 'butter'.
+
+These are all simple, but important. When its right, the user wont notice, but if any are wrong, it will stand out immediately.
+
+"Stop Drawing Dead Fish" :: Bret V.
+
+## React Native on the Apple TV Platform - Doug Lowder
+RN for tvOS is about 90% inline with iOS .
+There is no touch screen!! So the tv uses the 'focus engine' to figure out where the selection should go next.
+
+ReactTvView detects focus changes that fires an event to touchable. This allows touchable (in all its forms) to work as normal.
+
+Also handle trackpad events with a custom handler.
+
+UI
+* Larger screen - larger Front
+* TabBarIOS for top level navigation
+* List views need `removeClippedSubviews=false`
+
+`victory-native` for data visualization.
+
+## From Idea to App Store - Chris Ball
+chain react photobomb
+
+1. Optimize image sizes - use smaller images when appropriate.
+1. Don't forget to add permissions.
+1. Persistence should be minimal
+1. Loading Screen
+  `rn-toolbox` - generate icons.
+
+  `rn-generator-toolbox` - generate splash screens
+
+  `react-native-smart-splash-screen`
+
+  __Avoid 'flash of white'__
+  * iOS - rootView.BackgroundColor
+  * Android needs something too...
+
+1. Optimize screen size/orientation
+1. Handle Offline
+
+### Notes:
+
+> 1. __CodePush__ can allow for hot fixes where deploying to the app store can't.
+>
+> 1. Fastlane precheck can help 'lint' your submittion
+>
+> 1. Create a new build, not a new version when you resubmit after a rejection.
